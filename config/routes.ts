@@ -52,6 +52,12 @@ export default [
     component: './TableList',
   },
   {
+    name: 'employees.list',
+    icon: 'UsergroupDeleteOutlined',
+    path: '/employees',
+    component: './employees/index',
+  },
+  {
     path: '/',
     redirect: '/welcome',
   },
