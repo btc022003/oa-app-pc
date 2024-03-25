@@ -45,17 +45,65 @@ export default [
       },
     ],
   },
-  {
-    name: 'list.table-list',
-    icon: 'table',
-    path: '/list',
-    component: './TableList',
-  },
+  // {
+  //   name: 'list.table-list',
+  //   icon: 'table',
+  //   path: '/list',
+  //   component: './TableList',
+  // },
   {
     name: 'employees.list',
     icon: 'UsergroupDeleteOutlined',
     path: '/employees',
     component: './employees/index',
+  },
+  {
+    name: 'attendance.list',
+    icon: 'ContainerOutlined',
+    path: '/attendances',
+    component: './attendances/index',
+  },
+  {
+    name: 'leave.list',
+    icon: 'CoffeeOutlined',
+    path: '/leave_list',
+    component: './leave/index',
+  },
+  {
+    path: '/checks',
+    name: 'checks',
+    icon: 'SafetyCertificateOutlined',
+    // access: 'canAdmin',
+    routes: [
+      {
+        path: '/checks/leave',
+        name: 'leave',
+        component: './checks/leave-list',
+      },
+    ],
+  },
+  {
+    path: '/sys',
+    name: 'sys.setting',
+    icon: 'SettingOutlined',
+    // access: 'canAdmin',
+    routes: [
+      {
+        path: '/sys/department',
+        name: 'department',
+        component: './sys/departments',
+      },
+      {
+        path: '/sys/lbs',
+        name: 'lbs',
+        component: './sys/lbs',
+      },
+      {
+        path: '/sys/leave_categories',
+        name: 'leave-categories',
+        component: './sys/leave-categories',
+      },
+    ],
   },
   {
     path: '/',

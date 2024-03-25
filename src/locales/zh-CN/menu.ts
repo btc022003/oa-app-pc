@@ -50,4 +50,12 @@ export default {
   'menu.editor.mind': '脑图编辑器',
   'menu.editor.koni': '拓扑编辑器',
   'menu.employees.list': '员工信息',
+  'menu.sys.setting': '系统设置',
+  'menu.sys.setting.lbs': '打卡位置',
+  'menu.sys.setting.department': '组织机构',
+  'menu.sys.setting.leave-categories': '请假类型',
+  'menu.attendance.list': '出勤记录',
+  'menu.leave.list': '我的请假',
+  'menu.checks': '我的审批',
+  'menu.checks.leave': '请假审批',
 };
