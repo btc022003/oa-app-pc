@@ -29,6 +29,19 @@ export async function loadDataAPI(
   };
 }
 
+/**
+ * 获取所有的部门信息
+ * @returns
+ */
+export async function allDepartments() {
+  return request('/api/v1/departments', {
+    method: 'GET',
+    params: {
+      per: 100,
+    },
+  });
+}
+
 export function addDataAPI(data: any) {
   return request('/api/v1/departments', {
     method: 'POST',

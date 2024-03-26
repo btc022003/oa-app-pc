@@ -52,7 +52,7 @@ export default {
   'menu.employees.list': '员工信息',
   'menu.sys.setting': '系统设置',
   'menu.sys.setting.lbs': '打卡位置',
-  'menu.sys.setting.department': '组织机构',
+  'menu.sys.setting.department': '公司架构',
   'menu.sys.setting.leave-categories': '请假类型',
   'menu.attendance.list': '出勤记录',
   'menu.leave.list': '我的请假',
