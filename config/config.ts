@@ -154,6 +154,10 @@ export default defineConfig({
   esbuildMinifyIIFE: true,
   requestRecord: {},
   define: {
-    API_URL: 'http://localhost:3000',
+    API_URL: '',
+  },
+  publicPath: process.env.NODE_ENV === 'production' ? './' : '/',
+  history: {
+    type: 'hash',
   },
 });

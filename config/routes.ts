@@ -53,6 +53,7 @@ export default [
   // },
   {
     name: 'employees.list',
+    access: 'canAdmin',
     icon: 'UsergroupDeleteOutlined',
     path: '/employees',
     component: './employees/index',
@@ -73,7 +74,7 @@ export default [
     path: '/checks',
     name: 'checks',
     icon: 'SafetyCertificateOutlined',
-    // access: 'canAdmin',
+    access: 'canManager',
     routes: [
       {
         path: '/checks/leave',
@@ -86,7 +87,7 @@ export default [
     path: '/sys',
     name: 'sys.setting',
     icon: 'SettingOutlined',
-    // access: 'canAdmin',
+    access: 'canAdmin',
     routes: [
       {
         path: '/sys/department',
