@@ -1,3 +1,5 @@
+import dayjs from 'dayjs';
+
 export const setToken = (token: string) => sessionStorage.setItem('token', token);
 
 export const getToken = () => sessionStorage.getItem('token');
@@ -16,3 +18,10 @@ export const dalImg = (url: string) => {
 };
 
 export const uploadUrl = serverUrl + '/api/v1/common/upload';
+
+/**
+ * 格式化日期
+ * @param str
+ * @returns
+ */
+export const formatDateTime = (str: string) => dayjs(str).format('YYYY-MM-DD HH:mm:ss');
