@@ -4,7 +4,7 @@ import {
   ProTable,
   ProColumnType,
   ModalForm,
-  ProFormText,
+  // ProFormText,
   ProFormTextArea,
   ProFormDateTimeRangePicker,
   ProFormDigit,
@@ -12,29 +12,30 @@ import {
   ActionType,
   // ProFormRadio,
   ProForm,
-  ProFormItem,
+  // ProFormItem,
 } from '@ant-design/pro-components';
-import { Button, Image, Popconfirm, Space } from 'antd';
-import { DeleteOutlined, PlusOutlined } from '@ant-design/icons';
+import { Button, Tag, Popconfirm, Space } from 'antd';
+import { DeleteOutlined, PlusOutlined, CheckOutlined, CloseOutlined } from '@ant-design/icons';
 import {
   addDataAPI,
+  // addDataAPI,
   deleByIdAPI,
   deleManyByIdsAPI,
   loadDataAPI,
-  updateDataByIdAPI,
+  // updateDataByIdAPI,
 } from '@/services/leaves';
-import { dalImg } from '@/utils/tools';
+import { formatDateTime } from '@/utils/tools';
 import { useLeaves } from '@/hooks/use-leaves';
+import { useLeaveChecks } from '@/hooks/use-roles';
 
 function Leaves() {
   const [isShow, setIsShow] = useState(false);
-  const [imageUrl, setImageUrl] = useState('');
-  const [currentId, setCurrentId] = useState(''); // 当前id
   const [selectedKeys, setSelectedKeys] = useState<any>([]);
   const actionRef = useRef<ActionType>();
   const [myForm] = ProForm.useForm();
 
   const { leaveCategories } = useLeaves();
+  const { leaveCheckers } = useLeaveChecks();
 
   const columns: ProColumnType<any>[] = [
     {
@@ -47,34 +48,38 @@ function Leaves() {
     {
       title: '用户名',
       hideInSearch: true,
-      dataIndex: 'userName',
+      // dataIndex: 'userName',
+      render(v: any) {
+        return v.employee?.userName;
+      },
     },
     {
       title: '名字',
-      // hideInSearch: true,
-      dataIndex: 'realName',
-      fieldProps: {
-        name: 'name',
+      hideInSearch: true,
+      render(v: any) {
+        return v.employee?.realName;
       },
     },
     {
       title: '部门',
       hideInSearch: true,
       render(v: any) {
-        return v.department?.name;
+        return v.employee?.department?.name;
       },
     },
     {
       title: '时间',
       hideInSearch: true,
-      dataIndex: 'nickName',
+      render(v: any) {
+        return `${formatDateTime(v.startTime)}至${formatDateTime(v.endTime)}`;
+      },
     },
     {
       title: '请假类型',
       hideInSearch: true,
       align: 'center',
       render(v: any) {
-        return <Image src={dalImg(v.avatar)} width={120} />;
+        return v.leaveCategory.name;
       },
     },
     {
@@ -86,7 +91,18 @@ function Leaves() {
       title: '审核状态',
       hideInSearch: true,
       render(v: any) {
-        return v.role?.name;
+        return (
+          <Space>
+            {v.leaveCheckLogs?.map((item: any) => {
+              return (
+                <Tag color={item.isCheck ? 'success' : 'error'} key={item.id}>
+                  {item.owner?.realName}
+                  {item.isCheck ? <CheckOutlined /> : <CloseOutlined />}
+                </Tag>
+              );
+            })}
+          </Space>
+        );
       },
     },
 
@@ -116,14 +132,13 @@ function Leaves() {
       // 清除数据
       // actionRef.current
       myForm.resetFields();
-      setImageUrl('');
-      setCurrentId('');
       setSelectedKeys([]);
     }
   }, [isShow]);
   return (
     <PageContainer>
       <ProTable
+        search={false}
         bordered
         size="small"
         columns={columns}
@@ -163,14 +178,16 @@ function Leaves() {
         onOpenChange={setIsShow}
         title="编辑"
         onFinish={async (v) => {
-          console.log(v);
-          // if (currentId) {
-          //   await updateDataByIdAPI(currentId, { ...v, avatar: imageUrl });
-          // } else {
-          //   await addDataAPI({ ...v, avatar: imageUrl });
-          // }
-          // setIsShow(false);
-          // actionRef.current?.reload();
+          // console.log(v);
+          const { timeRange, checkers, ...othersData } = v;
+          await addDataAPI({
+            ...othersData,
+            startTime: timeRange[0],
+            endTime: timeRange[1],
+            checkers: checkers.join(','), // 审批人
+          }); // 新增
+          setIsShow(false);
+          actionRef.current?.reload();
         }}
       >
         <ProFormSelect
@@ -178,6 +195,13 @@ function Leaves() {
           options={leaveCategories}
           rules={[{ required: true, message: '请假类型不能为空' }]}
           name="leaveCategoryId"
+        ></ProFormSelect>
+        <ProFormSelect
+          mode="multiple"
+          label="审批人"
+          name="checkers"
+          rules={[{ required: true, message: '审批人不能为空' }]}
+          options={leaveCheckers}
         ></ProFormSelect>
         <ProFormDateTimeRangePicker
           label="起始时间"
@@ -187,6 +211,7 @@ function Leaves() {
         <ProFormDigit
           label="时长"
           placeholder="一天按八小时计算"
+          name="durations"
           rules={[{ required: true, message: '时长不能为空' }]}
         />
         <ProFormTextArea label="备注" name="desc" />

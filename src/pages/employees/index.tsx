@@ -6,11 +6,13 @@ import {
   ModalForm,
   ProFormText,
   ActionType,
-  // ProFormRadio,
+  ProFormRadio,
+  // ProFormRadioGroupProps,
+  ProFormSelect,
   ProForm,
   ProFormItem,
 } from '@ant-design/pro-components';
-import { Button, Image, Popconfirm, Space } from 'antd';
+import { Button, Image, Popconfirm, Space, TreeSelect } from 'antd';
 import { DeleteOutlined, EditOutlined, PlusOutlined } from '@ant-design/icons';
 import {
   addDataAPI,
@@ -21,6 +23,8 @@ import {
 } from '@/services/employees';
 import { dalImg } from '@/utils/tools';
 import MyUpload from '@/components/MyUpload';
+import { useRoles } from '@/hooks/use-roles';
+import { useDepartmentTreeData } from '@/hooks/use-department';
 
 function Employee() {
   const [isShow, setIsShow] = useState(false);
@@ -29,6 +33,11 @@ function Employee() {
   const [selectedKeys, setSelectedKeys] = useState<any>([]);
   const actionRef = useRef<ActionType>();
   const [myForm] = ProForm.useForm();
+  const { roles } = useRoles();
+  const { allDepartmentsData, loadDataDepartmentsAPI } = useDepartmentTreeData();
+  useEffect(() => {
+    loadDataDepartmentsAPI();
+  }, []);
   const columns: ProColumnType<any>[] = [
     {
       title: '序号',
@@ -74,9 +83,10 @@ function Employee() {
       title: '部门',
       hideInSearch: true,
       render(v: any) {
-        return v.department?.name;
+        return v.department ? v.department?.name + (v.isManager ? '【主管】' : '') : '';
       },
     },
+
     {
       title: '操作',
       hideInSearch: true,
@@ -195,34 +205,42 @@ function Employee() {
             },
           ]}
         />
-
+        <ProFormText label="昵称" name="nickName" rules={[]} />
         <ProFormText
           label="名字"
           name="realName"
-          rules={[
-            {
-              required: true,
-              message: '名字不能为空',
-            },
-          ]}
+          rules={[{ required: true, message: '名字不能为空' }]}
         />
-        {/* <ProFormRadio.Group
-          label="性别"
-          name="gender"
-          initialValue="male"
+        <ProFormSelect label="角色" options={roles} name="roleId"></ProFormSelect>
+        <ProFormRadio.Group
           options={[
             {
-              label: '男',
-              value: '男',
+              value: true,
+              label: '是',
             },
             {
-              label: '女',
-              value: '女',
+              value: false,
+              label: '否',
             },
           ]}
-        /> */}
-        <ProFormText label="昵称" name="nickName" rules={[]} />
-        <ProFormText label="岗位" name="station" rules={[]} />
+          label="是否部门主管"
+          name="isManager"
+        ></ProFormRadio.Group>
+        <ProForm.Item
+          label="部门"
+          name="departmentId"
+          rules={[{ required: true, message: '部门不能为空' }]}
+        >
+          <TreeSelect
+            showSearch
+            style={{ width: '100%' }}
+            dropdownStyle={{ maxHeight: 400, overflow: 'auto' }}
+            placeholder="Please select"
+            allowClear
+            treeDefaultExpandAll
+            treeData={allDepartmentsData}
+          />
+        </ProForm.Item>
       </ModalForm>
     </PageContainer>
   );

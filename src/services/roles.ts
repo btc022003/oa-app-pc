@@ -11,7 +11,7 @@ export async function loadDataAPI(
   // console.log(params);
   // 这里需要返回一个 Promise,在返回之前你可以进行数据转化
   // 如果需要转化参数可以在这里进行修改
-  const res = await request('/api/v1/employees', {
+  const res = await request('/api/v1/roles', {
     method: 'GET',
     params: {
       // ...params,
@@ -30,31 +30,21 @@ export async function loadDataAPI(
 }
 
 export function addDataAPI(data: any) {
-  return request('/api/v1/employees', {
+  return request('/api/v1/roles', {
     method: 'POST',
     data,
   });
 }
 
-/**
- * 请假审批人
- * @returns
- */
-export function loadLeaveCheckersAPI() {
-  return request('/api/v1/employees/user/leave_checkers', {
-    method: 'GET',
-  });
-}
-
 export function updateDataByIdAPI(id: string, data: any) {
-  return request('/api/v1/employees/' + id, {
+  return request('/api/v1/roles/' + id, {
     method: 'PATCH',
     data,
   });
 }
 
 export function deleByIdAPI(id: string) {
-  return request('/api/v1/employees/' + id, {
+  return request('/api/v1/roles/' + id, {
     method: 'DELETE',
   });
 }
@@ -65,7 +55,7 @@ export function deleByIdAPI(id: string) {
  * @returns
  */
 export function deleManyByIdsAPI(ids: string) {
-  return request('/api/v1/employees/remove_many', {
+  return request('/api/v1/roles/remove_many', {
     method: 'DELETE',
     params: {
       ids,

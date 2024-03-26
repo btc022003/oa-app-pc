@@ -41,7 +41,8 @@ function Attendances() {
   return (
     <PageContainer>
       <ProTable
-        searchFormRender={() => <></>}
+        // searchFormRender={() => <></>}
+        search={false}
         bordered
         size="small"
         columns={columns}

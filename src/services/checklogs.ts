@@ -1,3 +1,4 @@
+// user/leave_need_checks
 import { request } from '@umijs/max';
 
 export async function loadDataAPI(
@@ -11,7 +12,7 @@ export async function loadDataAPI(
   // console.log(params);
   // 这里需要返回一个 Promise,在返回之前你可以进行数据转化
   // 如果需要转化参数可以在这里进行修改
-  const res = await request('/api/v1/leaves', {
+  const res = await request('/api/v1/leaves/user/leave_need_checks', {
     method: 'GET',
     params: {
       // ...params,
@@ -27,38 +28,4 @@ export async function loadDataAPI(
     // 不传会使用 data 的长度，如果是分页一定要传
     total: res.data.total,
   };
-}
-
-export function addDataAPI(data: any) {
-  return request('/api/v1/leaves/user/leave', {
-    method: 'POST',
-    data,
-  });
-}
-
-export function updateDataByIdAPI(id: string, data: any) {
-  return request('/api/v1/leaves/' + id, {
-    method: 'PATCH',
-    data,
-  });
-}
-
-export function deleByIdAPI(id: string) {
-  return request('/api/v1/leaves/' + id, {
-    method: 'DELETE',
-  });
-}
-
-/**
- * 多个用,分割
- * @param ids
- * @returns
- */
-export function deleManyByIdsAPI(ids: string) {
-  return request('/api/v1/leaves/remove_many', {
-    method: 'DELETE',
-    params: {
-      ids,
-    },
-  });
 }
