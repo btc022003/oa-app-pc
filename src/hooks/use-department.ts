@@ -39,14 +39,14 @@ function buildTree(items: any) {
  * @returns
  */
 export function useDepartmentTreeData() {
-  const [department, setDepartment] = useState([]);
+  const [allDepartmentsData, setDepartment] = useState([]);
 
-  const loadDataAPI = async () => {
+  const loadDataDepartmentsAPI = async () => {
     const res = await allDepartments();
     setDepartment(buildTree(res.data.list));
   };
   return {
-    loadDataAPI,
-    department,
+    loadDataDepartmentsAPI,
+    allDepartmentsData,
   };
 }

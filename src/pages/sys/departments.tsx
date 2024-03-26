@@ -17,41 +17,8 @@ import {
   deleManyByIdsAPI,
   loadDataAPI,
   updateDataByIdAPI,
-  allDepartments,
 } from '@/services/departments';
-
-// 构建属性结构
-function buildTree(items: any) {
-  const map: any = {}; // 创建一个映射，用于快速查找每个id对应的元素
-  const tree: any = []; // 这是最终的树形结构
-
-  // 第一步：构建id到元素的映射
-  items.forEach((item: any) => {
-    map[item.id] = { ...item, children: [] };
-  });
-
-  // 第二步：构建树形结构
-  items.forEach((item: any) => {
-    const parent = item.parent ? map[item.parent.id] : null;
-    if (parent) {
-      // 如果找到了父元素，则将当前元素添加到父元素的children数组中
-      parent.children.push({
-        value: item.id,
-        title: item.name,
-        children: map[item.id].children,
-      });
-    } else {
-      // 如果没有找到父元素（即它是根元素），则将其添加到树中
-      tree.push({
-        value: map[item.id].id,
-        title: map[item.id].name,
-        children: map[item.id].children,
-      });
-    }
-  });
-
-  return tree;
-}
+import { useDepartmentTreeData } from '@/hooks/use-department';
 
 function Departments() {
   const [isShow, setIsShow] = useState(false);
@@ -59,7 +26,7 @@ function Departments() {
   const [selectedKeys, setSelectedKeys] = useState<any>([]);
   const actionRef = useRef<ActionType>();
   const [myForm] = ProForm.useForm();
-  const [departmentsInfo, setDepartmentsInfo] = useState([]);
+  const { loadDataDepartmentsAPI, allDepartmentsData } = useDepartmentTreeData();
   const columns: ProColumnType<any>[] = [
     {
       title: '序号',
@@ -127,11 +94,7 @@ function Departments() {
       myForm.resetFields();
       setCurrentId('');
       setSelectedKeys([]);
-
-      allDepartments().then((res) => {
-        // 根据parent生成属性结构
-        setDepartmentsInfo(buildTree(res.data.list));
-      });
+      loadDataDepartmentsAPI();
     }
   }, [isShow]);
   return (
@@ -204,7 +167,7 @@ function Departments() {
             placeholder="Please select"
             allowClear
             treeDefaultExpandAll
-            treeData={departmentsInfo}
+            treeData={allDepartmentsData}
           />
         </ProForm.Item>
       </ModalForm>
