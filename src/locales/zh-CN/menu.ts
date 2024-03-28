@@ -58,4 +58,5 @@ export default {
   'menu.leave.list': '我的请假',
   'menu.checks': '我的审批',
   'menu.checks.leave': '请假审批',
+  'menu.sys.setting.attendances-positions': '打卡范围',
 };
