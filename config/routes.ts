@@ -84,6 +84,24 @@ export default [
     ],
   },
   {
+    path: '/article',
+    name: 'article',
+    icon: 'table',
+    access: 'canAdmin',
+    routes: [
+      {
+        path: '/article/list',
+        name: 'list',
+        component: './articles/index',
+      },
+      {
+        path: '/article/categories',
+        name: 'categories',
+        component: './articles/article-categories',
+      },
+    ],
+  },
+  {
     path: '/sys',
     name: 'sys.setting',
     icon: 'SettingOutlined',

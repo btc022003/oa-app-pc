@@ -5,9 +5,13 @@ import {
   ProColumnType,
   ModalForm,
   ProFormText,
+  ProFormTextArea,
   ActionType,
+  ProFormSelect,
   // ProFormRadio,
+  ProFormDigit,
   ProForm,
+  ProFormItem,
 } from '@ant-design/pro-components';
 import { Button, Popconfirm, Space } from 'antd';
 import { DeleteOutlined, EditOutlined, PlusOutlined } from '@ant-design/icons';
@@ -17,14 +21,21 @@ import {
   deleManyByIdsAPI,
   loadDataAPI,
   updateDataByIdAPI,
-} from '@/services/leave-categories';
+} from '@/services/articles';
+import MyUpload from '@/components/MyUpload';
+import MyEditor from '@/components/MyEditor';
+import { useArticleCategories } from '@/hooks/use-article-categories';
 
-function LeaveCategories() {
+function Articles() {
   const [isShow, setIsShow] = useState(false);
+  const [imageUrl, setImageUrl] = useState('');
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  const [html, setHtml] = useState('');
   const [currentId, setCurrentId] = useState(''); // 当前id
   const [selectedKeys, setSelectedKeys] = useState<any>([]);
   const actionRef = useRef<ActionType>();
   const [myForm] = ProForm.useForm();
+  const { articleCategories } = useArticleCategories();
   const columns: ProColumnType<any>[] = [
     {
       title: '序号',
@@ -81,6 +92,8 @@ function LeaveCategories() {
       myForm.resetFields();
       setCurrentId('');
       setSelectedKeys([]);
+      setImageUrl('');
+      setHtml('');
     }
   }, [isShow]);
   return (
@@ -126,9 +139,9 @@ function LeaveCategories() {
         title="编辑"
         onFinish={async (v) => {
           if (currentId) {
-            await updateDataByIdAPI(currentId, { ...v });
+            await updateDataByIdAPI(currentId, { ...v, image: imageUrl, content: html });
           } else {
-            await addDataAPI({ ...v });
+            await addDataAPI({ ...v, image: imageUrl, content: html });
           }
 
           setIsShow(false);
@@ -136,18 +149,50 @@ function LeaveCategories() {
         }}
       >
         <ProFormText
-          label="名字"
+          label="标题"
           name="name"
           rules={[
             {
               required: true,
-              message: '名字不能为空',
+              message: '标题不能为空',
             },
           ]}
         />
+        <ProFormItem label="主图">
+          <MyUpload imageUrl={imageUrl} setImageUrl={setImageUrl} />
+        </ProFormItem>
+        <ProFormSelect
+          label="分类"
+          options={articleCategories}
+          name="articleCategoryId"
+        ></ProFormSelect>
+        <ProFormTextArea
+          label="简介"
+          name="desc"
+          rules={[
+            {
+              required: true,
+              message: '简介不能为空',
+            },
+          ]}
+        />
+        <ProFormDigit
+          label="浏览次数"
+          name="views"
+          min={1}
+          rules={[
+            {
+              required: true,
+              message: '浏览次数',
+            },
+          ]}
+        />
+        <ProFormItem label="详情">
+          <MyEditor html={html} setHtml={setHtml} />
+        </ProFormItem>
       </ModalForm>
     </PageContainer>
   );
 }
 
-export default LeaveCategories;
+export default Articles;

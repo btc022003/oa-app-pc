@@ -8,6 +8,7 @@ import {
   ActionType,
   // ProFormRadio,
   ProForm,
+  ProFormItem,
 } from '@ant-design/pro-components';
 import { Button, Popconfirm, Space } from 'antd';
 import { DeleteOutlined, EditOutlined, PlusOutlined } from '@ant-design/icons';
@@ -17,10 +18,14 @@ import {
   deleManyByIdsAPI,
   loadDataAPI,
   updateDataByIdAPI,
-} from '@/services/leave-categories';
+} from '@/services/article-categories';
+import MyUpload from '@/components/MyUpload';
 
-function LeaveCategories() {
+function ArticleCategories() {
   const [isShow, setIsShow] = useState(false);
+  const [imageUrl, setImageUrl] = useState('');
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  const [html, setHtml] = useState('');
   const [currentId, setCurrentId] = useState(''); // 当前id
   const [selectedKeys, setSelectedKeys] = useState<any>([]);
   const actionRef = useRef<ActionType>();
@@ -81,6 +86,8 @@ function LeaveCategories() {
       myForm.resetFields();
       setCurrentId('');
       setSelectedKeys([]);
+      setImageUrl('');
+      setHtml('');
     }
   }, [isShow]);
   return (
@@ -145,9 +152,12 @@ function LeaveCategories() {
             },
           ]}
         />
+        <ProFormItem label="主图">
+          <MyUpload imageUrl={imageUrl} setImageUrl={setImageUrl} />
+        </ProFormItem>
       </ModalForm>
     </PageContainer>
   );
 }
 
-export default LeaveCategories;
+export default ArticleCategories;
