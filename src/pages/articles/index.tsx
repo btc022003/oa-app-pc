@@ -13,7 +13,7 @@ import {
   ProForm,
   ProFormItem,
 } from '@ant-design/pro-components';
-import { Button, Popconfirm, Space } from 'antd';
+import { Button, Popconfirm, Space, Image } from 'antd';
 import { DeleteOutlined, EditOutlined, PlusOutlined } from '@ant-design/icons';
 import {
   addDataAPI,
@@ -23,8 +23,9 @@ import {
   updateDataByIdAPI,
 } from '@/services/articles';
 import MyUpload from '@/components/MyUpload';
-import MyEditor from '@/components/MyEditor';
+// import MyEditor from '@/components/MyEditor';
 import { useArticleCategories } from '@/hooks/use-article-categories';
+import { dalImg } from '@/utils/tools';
 
 function Articles() {
   const [isShow, setIsShow] = useState(false);
@@ -45,11 +46,29 @@ function Articles() {
       },
     },
     {
-      title: '名字',
-      hideInSearch: true,
+      title: '标题',
+      // hideInSearch: true,
       dataIndex: 'name',
       fieldProps: {
         name: 'name',
+      },
+    },
+    {
+      title: '简介',
+      hideInSearch: true,
+      dataIndex: 'desc',
+    },
+    {
+      title: '浏览次数',
+      hideInSearch: true,
+      dataIndex: 'views',
+    },
+    {
+      title: '封面',
+      hideInSearch: true,
+      align: 'center',
+      render(v: any) {
+        return <Image src={dalImg(v.image)} width={120} />;
       },
     },
     {
@@ -78,6 +97,7 @@ function Articles() {
                 myForm.setFieldsValue(r);
                 setCurrentId(r.id);
                 setIsShow(true);
+                setImageUrl(r.image);
               }}
             />
           </Space>
@@ -187,9 +207,7 @@ function Articles() {
             },
           ]}
         />
-        <ProFormItem label="详情">
-          <MyEditor html={html} setHtml={setHtml} />
-        </ProFormItem>
+        <ProFormItem label="详情">{/* <MyEditor html={html} setHtml={setHtml} /> */}</ProFormItem>
       </ModalForm>
     </PageContainer>
   );

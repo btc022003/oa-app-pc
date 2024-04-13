@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { LoadingOutlined, PlusOutlined } from '@ant-design/icons';
 import { message, Upload } from 'antd';
-import { uploadUrl } from '../utils/tools';
+import { getToken, uploadUrl } from '../utils/tools';
 import { dalImg } from '../utils/tools';
 const getBase64 = (img, callback) => {
   const reader = new FileReader();
@@ -59,6 +59,7 @@ const MyUpload = ({ imageUrl, setImageUrl }) => {
         listType="picture-card"
         className="avatar-uploader"
         showUploadList={false}
+        headers={{ token: getToken()! }}
         // action是你们公司给你的文件上传接口
         action={uploadUrl}
         // 上传之前执行

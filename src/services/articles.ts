@@ -14,7 +14,7 @@ export async function loadDataAPI(
   const res = await request('/api/v1/articles', {
     method: 'GET',
     params: {
-      // ...params,
+      ...params,
       page: params.current,
       per: params.pageSize,
     },
