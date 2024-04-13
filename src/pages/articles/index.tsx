@@ -22,7 +22,7 @@ import {
   loadDataAPI,
   updateDataByIdAPI,
 } from '@/services/articles';
-import MyUpload from '@/components/MyUpload';
+import MyUpload from '@/components/my-upload';
 // import MyEditor from '@/components/MyEditor';
 import { useArticleCategories } from '@/hooks/use-article-categories';
 import { dalImg } from '@/utils/tools';

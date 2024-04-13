@@ -22,7 +22,7 @@ import {
   updateDataByIdAPI,
 } from '@/services/employees';
 import { dalImg } from '@/utils/tools';
-import MyUpload from '@/components/MyUpload';
+import MyUpload from '@/components/my-upload';
 import { useRoles } from '@/hooks/use-roles';
 import { useDepartmentTreeData } from '@/hooks/use-department';
 

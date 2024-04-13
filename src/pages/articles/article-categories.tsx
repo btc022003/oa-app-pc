@@ -19,7 +19,7 @@ import {
   loadDataAPI,
   updateDataByIdAPI,
 } from '@/services/article-categories';
-import MyUpload from '@/components/MyUpload';
+import MyUpload from '@/components/my-upload';
 
 function ArticleCategories() {
   const [isShow, setIsShow] = useState(false);
