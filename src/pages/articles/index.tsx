@@ -23,7 +23,7 @@ import {
   updateDataByIdAPI,
 } from '@/services/articles';
 import MyUpload from '@/components/my-upload';
-// import MyEditor from '@/components/MyEditor';
+import MyEditor from '@/components/my-editor';
 import { useArticleCategories } from '@/hooks/use-article-categories';
 import { dalImg } from '@/utils/tools';
 
@@ -98,6 +98,7 @@ function Articles() {
                 setCurrentId(r.id);
                 setIsShow(true);
                 setImageUrl(r.image);
+                setHtml(r.content);
               }}
             />
           </Space>
@@ -207,7 +208,9 @@ function Articles() {
             },
           ]}
         />
-        <ProFormItem label="详情">{/* <MyEditor html={html} setHtml={setHtml} /> */}</ProFormItem>
+        <ProFormItem label="详情">
+          <MyEditor html={html} setHtml={setHtml} />
+        </ProFormItem>
       </ModalForm>
     </PageContainer>
   );

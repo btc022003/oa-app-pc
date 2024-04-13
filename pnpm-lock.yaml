@@ -14,6 +14,9 @@ dependencies:
   '@umijs/route-utils':
     specifier: ^2.2.2
     version: 2.2.2
+  '@wangeditor/editor':
+    specifier: ^5.1.23
+    version: 5.1.23
   '@wangeditor/editor-for-react':
     specifier: ^1.0.6
     version: 1.0.6(@wangeditor/core@1.1.19)(@wangeditor/editor@5.1.23)(react-dom@18.2.0)(react@18.2.0)
